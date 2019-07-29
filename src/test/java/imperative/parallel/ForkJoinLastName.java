@@ -7,13 +7,15 @@ package imperative.parallel;/*
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
+import static common.Common.RESULT;
 import static common.Common.TEAM;
 import static imperative.ImperativeLastName.concatLastNames;
+import static imperative.parallel.Util.concatResults;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ForkJoinLastName {
 
@@ -22,11 +24,12 @@ public class ForkJoinLastName {
     @Test
     void parallelWithForkJoinPool() {
         var forkJoinPool = new ForkJoinPool(AVAILABLE_CORES);
-        var results = forkJoinPool.invoke(new MyRecursiveTask(TEAM));
-        System.out.println(Util.concatResults(results));
+        var expected = forkJoinPool.invoke(new MyRecursiveTask(TEAM));
+        System.out.println(expected);
+        assertEquals(expected, RESULT);
     }
 
-    static class MyRecursiveTask extends RecursiveTask<List<String>> {
+    static class MyRecursiveTask extends RecursiveTask<String> {
         private static final long serialVersionUID = -5978274303314688527L;
         
         private static final int MIN_TEAM_SIZE = 2; // In real-world, DO NOT have it below 10,000
@@ -37,7 +40,7 @@ public class ForkJoinLastName {
         }
 
         @Override
-        protected List<String> compute() {
+        protected String compute() {
             if (team.size() > MIN_TEAM_SIZE) {
                 var mid = team.size() / 2;
                 final var myRecursiveTask1 = new MyRecursiveTask(team.subList(0, mid));
@@ -47,11 +50,11 @@ public class ForkJoinLastName {
                 myRecursiveTask2.fork();
 
                 var results = new ArrayList<String>();
-                results.addAll(myRecursiveTask1.join());
-                results.addAll(myRecursiveTask2.join());
-                return results;
+                results.add(myRecursiveTask1.join());
+                results.add(myRecursiveTask2.join());
+                return concatResults(results);
             } else {
-                return Collections.singletonList(concatLastNames(team));
+                return concatLastNames(team);
             }
         }
     }

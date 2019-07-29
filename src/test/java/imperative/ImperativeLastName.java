@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static common.Common.DELIMITER;
+import static common.Common.RESULT;
 import static common.Common.TEAM;
-import static common.Common.result;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImperativeLastName {
@@ -18,35 +18,41 @@ public class ImperativeLastName {
     @Test
     void testLastNameFinderSimpleLoop() {
         final var expected = concatLastNames(TEAM);
+        assertEquals(expected, RESULT);
         System.out.println(expected);
-        assertEquals(expected, result);
+    }
+    
+    public static String concatLastNamesStage1(List<String> team) {
+        var output = new StringBuilder();
+        for (var teamMemberName : team) {
+            var lastName = extractLastName(teamMemberName.trim());
+            output.append(lastName);
+            output.append(DELIMITER);
+        }
+        return output.toString();
     }
 
     public static String concatLastNames(List<String> team) {
         var output = new StringBuilder();
         var isFirst = true;
-        for (var teamMemberName : team) { // Concern-1: Looping through the list
-            if (teamMemberName != null && !teamMemberName.trim().isEmpty()) { // Catch-2: filter-out invalid names
-                if (!isFirst) { // Catch-1: Should not prepend delimiter for first entry 
-                    output.append(DELIMITER);
+        for (var teamMemberName : team) { // HTD-1: Looping through the list
+            if (teamMemberName != null) { // WTD-11: Deal with nulls
+                teamMemberName = teamMemberName.trim(); // WTD-12: Deal with only white space names
+                if (!teamMemberName.isEmpty()) { // WTD-13: Deal with empty names
+                    if (!isFirst) { // Catch: Should not prepend delimiter for first entry. 
+                        output.append(DELIMITER);
+                    }
+                    var lastName = extractLastName(teamMemberName); // WTD-2: Extracting last name
+                    output.append(lastName); // HTD-2: Aggregating the results with the delimiter.
+                    isFirst = false;
                 }
-                var lastName = extractLastName(teamMemberName); // Concern-2: Extracting last name
-                output.append(lastName); // Concern-3: Aggregating the results with the delimiter.
-                isFirst = false;
             }
         }
         return output.toString();
     }
 
-    private static String extractLastName(final String fullName) {
-        final var lastSpaceIndex = fullName.lastIndexOf(" "); // TODO 2019-06-27 gakshintala: fix
-        final String lastName;
-        if (lastSpaceIndex < 0) { // Catch-3: for single word names
-            lastName = fullName;
-        } else {
-            lastName = fullName.substring(lastSpaceIndex + 1);
-        }
-        return lastName;
+    private static String extractLastName(String fullName) {
+        return fullName.substring(fullName.lastIndexOf(" ") + 1);
     }
 
 }

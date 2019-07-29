@@ -14,9 +14,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static common.Common.RESULT;
 import static common.Common.TEAM;
 import static imperative.ImperativeLastName.concatLastNames;
 import static imperative.parallel.Util.concatResults;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ThreadPoolLastName {
 
@@ -24,7 +26,9 @@ public class ThreadPoolLastName {
 
     @Test
     void testLastNameFinderThreadPool() {
-        System.out.println(parallelWithThreadPool(TEAM));
+        final var expected = parallelWithThreadPool(TEAM);
+        System.out.println(expected);
+        assertEquals(expected, RESULT);
     }
 
     private String parallelWithThreadPool(List<String> team) {
@@ -34,6 +38,8 @@ public class ThreadPoolLastName {
         if (segmentLen == 0) {
             segmentLen = team.size();
         }
+        
+        // Split the list to be dealt by different futures.
         var offset = 0;
         while (offset < team.size()) {
             final var from = offset;
@@ -46,6 +52,8 @@ public class ThreadPoolLastName {
             }));
             offset += segmentLen;
         }
+        
+        // Aggregate results
         var results = new ArrayList<String>();
         for (var future : futureList) {
             try {
@@ -54,6 +62,8 @@ public class ThreadPoolLastName {
                 e.printStackTrace();
             }
         }
+        
+        // Deal with last left-out segment
         if (offset < team.size()) {
             results.add(concatLastNames(team.subList(team.size() - segmentLen, team.size())));
         }

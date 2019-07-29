@@ -6,48 +6,49 @@ package declarative;/*
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static common.Common.DELIMITER;
+import static common.Common.RESULT;
 import static common.Common.TEAM;
-import static common.Common.result;
 import static java.util.function.Predicate.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeclarativeLastName {
-
-    // First-Class Functions
-    private static final BinaryOperator<String> LAST_WORD_REDUCER = (previous, current) -> current;
-    private static final UnaryOperator<String> GET_LAST_NAME =
-            fullName -> Arrays.stream(fullName.split("\\s+"))
-                    .reduce(LAST_WORD_REDUCER)
-                    .orElse("");
-
+    
     @Test
     void testLastNameFinderWithStream() {
-        final var expected = TEAM.stream()
-                .filter(Objects::nonNull)
-                .map(String::trim)
-                .filter(not(String::isEmpty))
-                .map(GET_LAST_NAME)
-                .collect(Collectors.joining(DELIMITER));
+        final var expected = concatLastNames(TEAM);
+        final var expectedParallel = concatLastNamesInParallel(TEAM);
+        assertEquals(expected, expectedParallel);
+        assertEquals(expected, RESULT);
         System.out.println(expected);
-        assertEquals(expected, result);
     }
 
-    @Test
-    void testLastNameFinderWithParallelStream() {
-        final var expected = TEAM.parallelStream()
-                .filter(Objects::nonNull)
-                .map(String::trim)
-                .filter(not(String::isEmpty))
-                .map(GET_LAST_NAME)
+    private String concatLastNamesStage1(List<String> team) {
+        return team.stream()
+                .map(fullName -> fullName.substring(fullName.lastIndexOf(" ") + 1))
                 .collect(Collectors.joining(DELIMITER));
-        System.out.println(expected);
-        assertEquals(expected, result);
     }
+
+    private String concatLastNames(List<String> team) {
+        return team.stream()                                // HTD-1: Looping through elements.
+                .filter(Objects::nonNull)                                               // WTD-11: Deal with nulls.
+                .map(String::trim)                                                      // WTD-12: Deal with only white space strings.
+                .filter(not(String::isEmpty))                                           // WTD-13: Deal with empty strings.
+                .map(fullName -> fullName.substring(fullName.lastIndexOf(" ") + 1)) // WTD-2: Extract Last Name.
+                .collect(Collectors.joining(DELIMITER));    // HTD-2: Aggregating results.
+    }
+    
+    private String concatLastNamesInParallel(List<String> team) {
+        return team.parallelStream()
+                .filter(Objects::nonNull) // Catch-1: Deal with nulls.
+                .map(String::trim) // Catch-2: Deal with only white space strings.
+                .filter(not(String::isEmpty)) // Catch-3: Deal with empty strings.
+                .map(fullName -> fullName.substring(fullName.lastIndexOf(" ") + 1))
+                .collect(Collectors.joining(DELIMITER));
+    }
+
 }
