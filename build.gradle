@@ -5,10 +5,12 @@ plugins {
 group 'com.gakshintala.fp'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 12
-
 repositories {
     mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
