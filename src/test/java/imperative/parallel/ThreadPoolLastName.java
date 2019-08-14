@@ -26,9 +26,9 @@ public class ThreadPoolLastName {
 
     @Test
     void testLastNameFinderThreadPool() {
-        final var expected = parallelWithThreadPool(TEAM);
-        System.out.println(expected);
-        assertEquals(expected, RESULT);
+        final var actualResult = parallelWithThreadPool(TEAM);
+        System.out.println(actualResult);
+        assertEquals(RESULT, actualResult);
     }
 
     private String parallelWithThreadPool(List<String> team) {

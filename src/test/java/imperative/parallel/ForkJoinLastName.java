@@ -24,9 +24,9 @@ public class ForkJoinLastName {
     @Test
     void parallelWithForkJoinPool() {
         var forkJoinPool = new ForkJoinPool(AVAILABLE_CORES);
-        var expected = forkJoinPool.invoke(new MyRecursiveTask(TEAM));
-        System.out.println(expected);
-        assertEquals(expected, RESULT);
+        var actualResult = forkJoinPool.invoke(new MyRecursiveTask(TEAM));
+        System.out.println(actualResult);
+        assertEquals(RESULT, actualResult);
     }
 
     static class MyRecursiveTask extends RecursiveTask<String> {
