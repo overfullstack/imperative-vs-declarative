@@ -26,7 +26,7 @@ public class DeclarativeLastName {
         final var expected = concatLastNames(TEAM);
         final var expectedParallel = concatLastNamesInParallel(TEAM);
         assertEquals(expected, expectedParallel); // Parallel stream maintains the order
-        assertEquals(expected, RESULT);
+        assertEquals(RESULT, expected);
         System.out.println(expected);
     }
 
@@ -35,7 +35,7 @@ public class DeclarativeLastName {
         final var expected = concatLastNames(null);
         final var expectedParallel = concatLastNamesInParallel(null);
         assertEquals(expected, expectedParallel);
-        assertEquals(expected, "");
+        assertEquals("", expected);
     }
 
     private String concatLastNamesStage1(List<String> team) {
@@ -43,7 +43,13 @@ public class DeclarativeLastName {
                 .map(Common::extractLastName)
                 .collect(Collectors.joining(DELIMITER));
     }
-
+   
+    /**
+     *  ∙ Patching up -> Extending
+     *  ∙ Control Statements -> Expressions
+     *  ∙ Code that talks
+     *  ∙ Puzzle pieces fit together.
+     */
     private String concatLastNames(List<String> team) {
         return Stream.ofNullable(team)                   // HTD-1: Looping through elements.
                 .flatMap(Collection::stream)
@@ -53,14 +59,14 @@ public class DeclarativeLastName {
                 .map(Common::extractLastName) // WTD-2: Extract Last Name.
                 .collect(Collectors.joining(DELIMITER)); // HTD-2: Aggregating results.
     }
-
+    
     private String concatLastNamesInParallel(List<String> team) {
         return Stream.ofNullable(team)
                 .flatMap(Collection::parallelStream)
                 .filter(Objects::nonNull)
                 .map(String::trim)
                 .filter(not(String::isEmpty))
-                .map(fullName -> fullName.substring(fullName.lastIndexOf(" ") + 1))
+                .map(Common::extractLastName)
                 .collect(Collectors.joining(DELIMITER));
     }
 
