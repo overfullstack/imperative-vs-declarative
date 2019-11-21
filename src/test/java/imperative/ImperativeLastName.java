@@ -7,7 +7,6 @@ import java.util.List;
 import static common.Common.DELIMITER;
 import static common.Common.RESULT;
 import static common.Common.TEAM;
-import static common.Common.extractLastName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImperativeLastName {
@@ -81,6 +80,11 @@ public class ImperativeLastName {
             }
         }
         return output.toString();
+    }
+
+    public static String extractLastName(String fullName) {
+        // Substring after last whitespace
+        return fullName.substring(fullName.lastIndexOf(" ") + 1);
     }
 
 }

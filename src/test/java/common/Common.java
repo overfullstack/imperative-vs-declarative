@@ -28,9 +28,4 @@ public final class Common {
     public static final String DELIMITER = " 🤝 ";
     
     public static final String RESULT = "Viswanathan 🤝 Satya 🤝 Rawat 🤝 Tripathi 🤝 Yadala 🤝 Akshintala 🤝 Shankar 🤝 Pendhyala 🤝 Yakkala 🤝 Ahmed 🤝 Sharma 🤝 Tammana 🤝 Vemula 🤝 Kapoor";
-
-    public static String extractLastName(String fullName) {
-        // Substring after last whitespace
-        return fullName.substring(fullName.lastIndexOf(" ") + 1);
-    }
 }

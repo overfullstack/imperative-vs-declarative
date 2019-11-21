@@ -32,7 +32,7 @@ public class ThreadPoolLastName {
     }
 
     private String parallelWithThreadPool(List<String> team) {
-        var exec = Executors.newFixedThreadPool(AVAILABLE_CORES - 1);
+        var executor = Executors.newFixedThreadPool(AVAILABLE_CORES - 1);
         var futureList = new ArrayList<Future<String>>();
         var segmentLen = team.size() / AVAILABLE_CORES;
         if (segmentLen == 0) {
@@ -44,7 +44,7 @@ public class ThreadPoolLastName {
         while (offset < team.size()) {
             final var from = offset;
             final var to = offset + segmentLen;
-            futureList.add(exec.submit(new Callable<>() {
+            futureList.add(executor.submit(new Callable<>() {
                 @Override
                 public String call() {
                     return concatLastNames(team.subList(from, to));
@@ -68,9 +68,9 @@ public class ThreadPoolLastName {
             results.add(concatLastNames(team.subList(team.size() - segmentLen, team.size())));
         }
 
-        exec.shutdown();
+        executor.shutdown();
         try {
-            exec.awaitTermination(10, TimeUnit.SECONDS);
+            executor.awaitTermination(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
