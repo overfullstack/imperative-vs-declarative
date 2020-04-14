@@ -5,22 +5,15 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static common.Common.DELIMITER;
-import static common.Common.RESULT;
+import static common.Common.EXPECTED_RESULT;
 import static common.Common.TEAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImperativeLastName {
 
-    @Test
-    void testLastNameConcatStage1() {
-        final var expected = concatLastNamesStage1(TEAM);
-        assertEquals(RESULT, expected);
-        System.out.println(expected);
-    }
-
-    public static String concatLastNamesStage1(List<String> teamNames) {
+    private static String concatLastNamesStage1(List<String> team) {
         StringBuilder output = new StringBuilder();
-        for (String teamMemberName : teamNames) {
+        for (String teamMemberName : team) {
             String lastName = extractLastName(teamMemberName);
             output.append(lastName);
             output.append(DELIMITER);
@@ -28,14 +21,7 @@ public class ImperativeLastName {
         return output.toString();
     }
 
-    @Test
-    void testLastNameConcatStage2() {
-        final var expected = concatLastNamesStage2(TEAM);
-        assertEquals(RESULT, expected);
-        System.out.println(expected);
-    }
-
-    public static String concatLastNamesStage2(List<String> team) {
+    private static String concatLastNamesStage2(List<String> team) {
         if (team == null) {
             return "";
         }
@@ -53,13 +39,6 @@ public class ImperativeLastName {
         return output.toString();
     }
 
-    @Test
-    void testLastNameConcat() {
-        final var expected = concatLastNames(TEAM);
-        assertEquals(RESULT, expected);
-        System.out.println(expected);
-    }
-
     public static String concatLastNames(List<String> team) {
         if (team == null) {
             return "";
@@ -70,7 +49,7 @@ public class ImperativeLastName {
             if (teamMemberName != null) { // WTD-11: Deal with nulls
                 teamMemberName = teamMemberName.trim(); // WTD-12: Deal with only white space names
                 if (!teamMemberName.isEmpty()) { // WTD-13: Deal with empty names
-                    if (!isFirstFlag) { // Catch: Should not prepend delimiter for first entry. 
+                    if (!isFirstFlag) { // Catch: Should not prepend delimiter for first entry.
                         output.append(DELIMITER);
                     }
                     String lastName = extractLastName(teamMemberName); // WTD-2: Extracting last name
@@ -82,9 +61,30 @@ public class ImperativeLastName {
         return output.toString();
     }
 
-    public static String extractLastName(String fullName) {
+    private static String extractLastName(String fullName) {
         // Substring after last whitespace
         return fullName.substring(fullName.lastIndexOf(" ") + 1);
+    }
+
+    @Test
+    void testLastNameConcatStage1() {
+        final var actual = concatLastNamesStage1(TEAM);
+        assertEquals(EXPECTED_RESULT, actual);
+        System.out.println(actual);
+    }
+
+    @Test
+    void testLastNameConcatStage2() {
+        final var actual = concatLastNamesStage2(TEAM);
+        assertEquals(EXPECTED_RESULT, actual);
+        System.out.println(actual);
+    }
+
+    @Test
+    void testLastNameConcat() {
+        final var actual = concatLastNames(TEAM);
+        assertEquals(EXPECTED_RESULT, actual);
+        System.out.println(actual);
     }
 
 }

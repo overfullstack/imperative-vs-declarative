@@ -26,6 +26,6 @@ public final class Common {
     );
 
     public static final String DELIMITER = " 🤝 ";
-    
-    public static final String RESULT = "Viswanathan 🤝 Satya 🤝 Rawat 🤝 Tripathi 🤝 Yadala 🤝 Akshintala 🤝 Shankar 🤝 Pendhyala 🤝 Yakkala 🤝 Ahmed 🤝 Sharma 🤝 Tammana 🤝 Vemula 🤝 Kapoor";
+
+    public static final String EXPECTED_RESULT = "Viswanathan 🤝 Satya 🤝 Rawat 🤝 Tripathi 🤝 Yadala 🤝 Akshintala 🤝 Shankar 🤝 Pendhyala 🤝 Yakkala 🤝 Ahmed 🤝 Sharma 🤝 Tammana 🤝 Vemula 🤝 Kapoor";
 }

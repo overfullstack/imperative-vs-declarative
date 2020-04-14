@@ -14,21 +14,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static common.Common.RESULT;
+import static common.Common.EXPECTED_RESULT;
 import static common.Common.TEAM;
 import static imperative.ImperativeLastName.concatLastNames;
+import static imperative.parallel.Util.AVAILABLE_CORES;
 import static imperative.parallel.Util.concatResults;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ThreadPoolLastName {
-
-    private static final int AVAILABLE_CORES = Runtime.getRuntime().availableProcessors();
+public class ThreadPoolConcat {
 
     @Test
     void testLastNameFinderThreadPool() {
         final var actualResult = parallelWithThreadPool(TEAM);
         System.out.println(actualResult);
-        assertEquals(RESULT, actualResult);
+        assertEquals(EXPECTED_RESULT, actualResult);
     }
 
     private String parallelWithThreadPool(List<String> team) {
@@ -52,7 +51,7 @@ public class ThreadPoolLastName {
             }));
             offset += segmentLen;
         }
-        
+
         // Aggregate results
         var results = new ArrayList<String>();
         for (var future : futureList) {
@@ -62,7 +61,7 @@ public class ThreadPoolLastName {
                 e.printStackTrace();
             }
         }
-        
+
         // Deal with last left-out segment
         if (offset < team.size()) {
             results.add(concatLastNames(team.subList(team.size() - segmentLen, team.size())));
