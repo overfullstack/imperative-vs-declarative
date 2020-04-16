@@ -44,16 +44,16 @@ public class DeclarativeLastName {
     }
 
     /**
-     * ∙ Patching up -> Extending
-     * ∙ Control Statements -> Expressions
-     * ∙ Code that talks
-     * ∙ Puzzle pieces fit together.
+     * ∙ Patching up -> Extending<br>
+     * ∙ Control Statements -> Expressions<br>
+     * ∙ Code that talks<br>
+     * ∙ Puzzle pieces fit together.<br>
      */
     public String concatLastNames(List<String> team) {
         return Stream.ofNullable(team)                   // HTD-1: Looping through elements.
                 .flatMap(Collection::stream)
                 .filter(Objects::nonNull)     // WTD-11: Deal with nulls.
-                .map(String::trim)            // WTD-12: Deal with only white space strings.
+                .map(String::trim)            // WTD-12: Deal with only-white-space strings.
                 .filter(not(String::isEmpty)) // WTD-13: Deal with empty strings.
                 .map(extractLastName) // WTD-2: Extract Last Name.
                 .collect(Collectors.joining(DELIMITER)); // HTD-2: Aggregating results.

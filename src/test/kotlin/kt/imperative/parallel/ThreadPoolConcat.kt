@@ -1,8 +1,9 @@
 /* gakshintala created on 4/14/20 */
 package kt.imperative.parallel
 
-import common.Common
+import kt.common.TEAM
 import imperative.ImperativeLastName
+import kt.common.EXPECTED_RESULT
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -14,9 +15,9 @@ import java.util.concurrent.TimeUnit
 class ThreadPoolConcat {
     @Test
     fun testLastNameFinderThreadPool() {
-        val actualResult = parallelWithThreadPool(Common.TEAM)
+        val actualResult = parallelWithThreadPool(TEAM)
         println(actualResult)
-        Assertions.assertEquals(Common.EXPECTED_RESULT, actualResult)
+        Assertions.assertEquals(EXPECTED_RESULT, actualResult)
     }
 
     companion object {

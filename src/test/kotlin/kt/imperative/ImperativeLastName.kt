@@ -3,6 +3,7 @@ package kt.imperative
 import kt.common.DELIMITER
 import kt.common.EXPECTED_RESULT
 import kt.common.TEAM
+import kt.common.extractLastName
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -26,9 +27,10 @@ class ImperativeLastName {
         assertEquals(EXPECTED_RESULT, actual)
     }
 
+    /**
+     * Java Dev's Kotlin.
+     */
     companion object {
-        private fun extractLastName(fullName: String?) = fullName?.substring(fullName.lastIndexOf(" ") + 1) ?: ""
-
         private fun concatLastName1(team: List<String?>): String {
             var output = ""
             for (teamMemberName in team) {
@@ -38,7 +40,7 @@ class ImperativeLastName {
             return output
         }
 
-        private fun concatLastName2(team: List<String?>?): String {
+        private fun concatLastName2(team: List<String?>?): String { // Also want to support null teams
             if (team == null) {
                 return ""
             }

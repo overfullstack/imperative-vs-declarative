@@ -21,6 +21,11 @@ val TEAM = listOf(
         null // NULL
 )
 
-const val DELIMITER = " 🤝 ";
+const val DELIMITER = " 🤝 "
 
-const val EXPECTED_RESULT = "Viswanathan 🤝 Satya 🤝 Rawat 🤝 Tripathi 🤝 Yadala 🤝 Akshintala 🤝 Shankar 🤝 Pendhyala 🤝 Yakkala 🤝 Ahmed 🤝 Sharma 🤝 Tammana 🤝 Vemula 🤝 Kapoor";
+const val EXPECTED_RESULT = "Viswanathan 🤝 Satya 🤝 Rawat 🤝 Tripathi 🤝 Yadala 🤝 Akshintala 🤝 Shankar 🤝 Pendhyala 🤝 Yakkala 🤝 Ahmed 🤝 Sharma 🤝 Tammana 🤝 Vemula 🤝 Kapoor"
+
+/**
+ * Does Substring after last whitespace
+ */
+fun extractLastName(fullName: String?) = fullName?.substring(fullName.lastIndexOf(" ") + 1) ?: ""

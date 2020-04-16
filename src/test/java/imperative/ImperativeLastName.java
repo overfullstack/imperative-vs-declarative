@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImperativeLastName {
 
-    private static String concatLastNamesStage1(List<String> team) {
+    private static String concatLastNames1(List<String> team) {
         StringBuilder output = new StringBuilder();
         for (String teamMemberName : team) {
             String lastName = extractLastName(teamMemberName);
@@ -21,7 +21,7 @@ public class ImperativeLastName {
         return output.toString();
     }
 
-    private static String concatLastNamesStage2(List<String> team) {
+    private static String concatLastNames2(List<String> team) {
         if (team == null) {
             return "";
         }
@@ -68,14 +68,14 @@ public class ImperativeLastName {
 
     @Test
     void testLastNameConcatStage1() {
-        final var actual = concatLastNamesStage1(TEAM);
+        final var actual = concatLastNames1(TEAM);
         assertEquals(EXPECTED_RESULT, actual);
         System.out.println(actual);
     }
 
     @Test
     void testLastNameConcatStage2() {
-        final var actual = concatLastNamesStage2(TEAM);
+        final var actual = concatLastNames2(TEAM);
         assertEquals(EXPECTED_RESULT, actual);
         System.out.println(actual);
     }
