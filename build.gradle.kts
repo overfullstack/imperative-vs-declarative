@@ -13,14 +13,11 @@ repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
-
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-
-    testImplementation("org.junit.jupiter:junit-jupiter:+") {
-        exclude("junit", "junit")
-        exclude("org.junit.vintage", "junit-vintage-engine")
-    }
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:+")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:+")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:+")
 }
 
 java {
@@ -41,6 +38,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     ignoreFailures = true
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeEngines("junit-jupiter")
+    }
     jvmArgs("--enable-preview")
 }

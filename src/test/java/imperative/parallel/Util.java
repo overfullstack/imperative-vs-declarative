@@ -1,6 +1,7 @@
 package imperative.parallel;
 
 import java.util.List;
+import java.util.concurrent.RecursiveTask;
 
 import static common.Common.DELIMITER;
 
@@ -21,5 +22,17 @@ final class Util {
             }
         }
         return output.toString();
+    }
+
+    static String concatResultsFromForks(RecursiveTask<String> recursiveTask1, RecursiveTask<String> recursiveTask2) {
+        var result1 = recursiveTask1.join();
+        var result2 = recursiveTask2.join();
+        if (result1.isEmpty()) {
+            return result2;
+        } else if (result2.isEmpty()) {
+            return result1;
+        } else {
+            return result1 + DELIMITER + result2;
+        } 
     }
 }

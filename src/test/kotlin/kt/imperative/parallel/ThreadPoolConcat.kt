@@ -1,9 +1,9 @@
 /* gakshintala created on 4/14/20 */
 package kt.imperative.parallel
 
-import kt.common.TEAM
-import imperative.ImperativeLastName
 import kt.common.EXPECTED_RESULT
+import kt.common.TEAM
+import kt.imperative.ImperativeLastName.Companion.concatLastNames
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -34,7 +34,7 @@ class ThreadPoolConcat {
             while (offset < team.size) {
                 val from = offset
                 val to = offset + segmentLen
-                futureList.add(executor.submit<String> { ImperativeLastName.concatLastNames(team.subList(from, to)) })
+                futureList.add(executor.submit<String> { concatLastNames(team.subList(from, to)) })
                 offset += segmentLen
             }
 
@@ -52,7 +52,7 @@ class ThreadPoolConcat {
 
             // Deal with last left-out segment
             if (offset < team.size) {
-                results.add(ImperativeLastName.concatLastNames(team.subList(team.size - segmentLen, team.size)))
+                results.add(concatLastNames(team.subList(team.size - segmentLen, team.size)))
             }
             executor.shutdown()
             try {

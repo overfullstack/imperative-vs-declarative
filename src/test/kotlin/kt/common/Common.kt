@@ -18,7 +18,8 @@ val TEAM = listOf(
         "Himanshu Kapoor",
         " ", // Just one Space
         "   ", // Only space characters
-        null // NULL
+        null, // NULL
+        null // Consecutive nulls
 )
 
 const val DELIMITER = " 🤝 "

@@ -23,7 +23,7 @@ class ImperativeLastName {
 
     @Test
     fun `3 - LastName Concat`() {
-        val actual = concatLastNamesFinal(TEAM)
+        val actual = concatLastNames(TEAM)
         assertEquals(EXPECTED_RESULT, actual)
     }
 
@@ -57,7 +57,7 @@ class ImperativeLastName {
             return output
         }
 
-        fun concatLastNamesFinal(team: List<String?>?): String {
+        fun concatLastNames(team: List<String?>?): String {
             if (team == null) {
                 return ""
             }
@@ -65,12 +65,12 @@ class ImperativeLastName {
             var isFirstFlag = true
             for (teamMemberName in team) { // HTD-1: Looping through the list
                 if (teamMemberName != null) { // WTD-11: Deal with nulls
-                    val teamMemberNameTrimmed = teamMemberName.trim { it <= ' ' } // WTD-12: Deal with only white space names
+                    val teamMemberNameTrimmed = teamMemberName.trim() // WTD-12: Deal with only white space names
                     if (teamMemberNameTrimmed.isNotEmpty()) { // WTD-13: Deal with empty names
                         if (!isFirstFlag) { // Catch: Should not prepend delimiter for first entry.
                             output += DELIMITER
                         }
-                        val lastName = extractLastName(teamMemberName) // WTD-2: Extracting last name
+                        val lastName = extractLastName(teamMemberNameTrimmed) // WTD-2: Extracting last name
                         output += lastName // HTD-2: Aggregating the results with the delimiter.
                         isFirstFlag = false
                     }

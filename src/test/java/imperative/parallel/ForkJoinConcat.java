@@ -6,7 +6,6 @@ package imperative.parallel;/*
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -15,7 +14,7 @@ import static common.Common.EXPECTED_RESULT;
 import static common.Common.TEAM;
 import static imperative.ImperativeLastName.concatLastNames;
 import static imperative.parallel.Util.AVAILABLE_CORES;
-import static imperative.parallel.Util.concatResults;
+import static imperative.parallel.Util.concatResultsFromForks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ForkJoinConcat {
@@ -44,14 +43,10 @@ public class ForkJoinConcat {
                 var mid = team.size() / 2;
                 final var myRecursiveTask1 = new MyRecursiveTask(team.subList(0, mid));
                 final var myRecursiveTask2 = new MyRecursiveTask(team.subList(mid, team.size()));
-
                 myRecursiveTask1.fork();
                 myRecursiveTask2.fork();
 
-                var results = new ArrayList<String>();
-                results.add(myRecursiveTask1.join());
-                results.add(myRecursiveTask2.join());
-                return concatResults(results);
+                return concatResultsFromForks(myRecursiveTask1, myRecursiveTask2);
             } else {
                 return concatLastNames(team);
             }
