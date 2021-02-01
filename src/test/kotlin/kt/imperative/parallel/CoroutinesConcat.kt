@@ -7,11 +7,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kt.common.EXPECTED_RESULT
 import kt.common.TEAM
-import kt.imperative.ImperativeLastName.Companion.concatLastNames
+import kt.imperative.ImperativeConcat.Companion.concatLastNames
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class Coroutines {
+class CoroutinesConcat {
 
     @Test
     fun parallelWithCoroutines() = runBlocking {
@@ -23,15 +23,17 @@ class Coroutines {
     companion object {
         private const val MIN_TEAM_SIZE = 2
 
-        suspend fun concat(team: List<String?>): String = withContext(Dispatchers.Default) {
-            if (team.size > MIN_TEAM_SIZE) {
-                val mid = team.size / 2
-                val leftTask = async { concat(team.subList(0, mid)) }
-                val rightTask = async { concat(team.subList(mid, team.size)) }
-                concatResults(leftTask.await(), rightTask.await())
-            } else {
-                concatLastNames(team)
+        suspend fun concat(team: List<String?>?): String = team?.let {
+            withContext(Dispatchers.Default) {
+                if (it.size > MIN_TEAM_SIZE) {
+                    val mid = it.size / 2
+                    val leftTask = async { concat(it.subList(0, mid)) }
+                    val rightTask = async { concat(it.subList(mid, it.size)) }
+                    concatResults(leftTask.await(), rightTask.await())
+                } else {
+                    concatLastNames(team)
+                }
             }
-        }
+        } ?: ""
     }
 }

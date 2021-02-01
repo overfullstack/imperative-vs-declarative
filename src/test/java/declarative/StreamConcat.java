@@ -15,7 +15,7 @@ import static common.Common.TEAM;
 import static java.util.function.Predicate.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DeclarativeLastName {
+public class StreamConcat {
 
     UnaryOperator<String> extractLastName = fullName ->
             fullName.substring(fullName.lastIndexOf(" ") + 1);
@@ -50,10 +50,10 @@ public class DeclarativeLastName {
      * ∙ Puzzle pieces fit together.<br>
      */
     public String concatLastNames(List<String> team) {
-        return Stream.ofNullable(team)                   // HTD-1: Looping through elements.
+        return Stream.ofNullable(team) // HTD-1: Looping through elements.
                 .flatMap(Collection::stream)
-                .filter(Objects::nonNull)     // WTD-11: Deal with nulls.
-                .map(String::trim)            // WTD-12: Deal with only-white-space strings.
+                .filter(Objects::nonNull) // WTD-11: Deal with nulls.
+                .map(String::trim) // WTD-12: Deal with only-white-space strings.
                 .filter(not(String::isEmpty)) // WTD-13: Deal with empty strings.
                 .map(extractLastName) // WTD-2: Extract Last Name.
                 .collect(Collectors.joining(DELIMITER)); // HTD-2: Aggregating results.

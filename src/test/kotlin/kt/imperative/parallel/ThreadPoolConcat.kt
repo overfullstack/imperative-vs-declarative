@@ -3,7 +3,7 @@ package kt.imperative.parallel
 
 import kt.common.EXPECTED_RESULT
 import kt.common.TEAM
-import kt.imperative.ImperativeLastName.Companion.concatLastNames
+import kt.imperative.ImperativeConcat.Companion.concatLastNames
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -21,7 +21,10 @@ class ThreadPoolConcat {
     }
 
     companion object {
-        fun parallelWithThreadPool(team: List<String?>): String {
+        fun parallelWithThreadPool(team: List<String?>?): String {
+            if (team == null) {
+                return ""
+            }
             val executor = Executors.newFixedThreadPool(AVAILABLE_CORES - 1)
             val futureList = ArrayList<Future<String>>()
             var segmentLen = team.size / AVAILABLE_CORES

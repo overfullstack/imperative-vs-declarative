@@ -9,12 +9,12 @@ import static common.Common.EXPECTED_RESULT;
 import static common.Common.TEAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ImperativeLastName {
+public class ImperativeConcat {
 
     private static String concatLastNames1(List<String> team) {
-        StringBuilder output = new StringBuilder();
-        for (String teamMemberName : team) {
-            String lastName = extractLastName(teamMemberName);
+        var output = new StringBuilder();
+        for (var teamMemberName : team) {
+            var lastName = extractLastName(teamMemberName);
             output.append(lastName);
             output.append(DELIMITER);
         }
@@ -26,11 +26,11 @@ public class ImperativeLastName {
             return "";
         }
         var output = new StringBuilder();
-        for (String teamMemberName : team) {
+        for (var teamMemberName : team) {
             if (teamMemberName != null) {
                 teamMemberName = teamMemberName.trim();
                 if (!teamMemberName.isEmpty()) {
-                    String lastName = extractLastName(teamMemberName);
+                    var lastName = extractLastName(teamMemberName);
                     output.append(lastName);
                     output.append(DELIMITER);
                 }
@@ -43,16 +43,16 @@ public class ImperativeLastName {
         if (team == null) {
             return "";
         }
-        StringBuilder output = new StringBuilder();
-        boolean isFirstFlag = true;
-        for (String teamMemberName : team) { // HTD-1: Looping through the list
+        var output = new StringBuilder();
+        var isFirstFlag = true;
+        for (var teamMemberName : team) { // HTD-1: Looping through the list
             if (teamMemberName != null) { // WTD-11: Deal with nulls
                 teamMemberName = teamMemberName.trim(); // WTD-12: Deal with only white space names
                 if (!teamMemberName.isEmpty()) { // WTD-13: Deal with empty names
                     if (!isFirstFlag) { // Catch: Should not prepend delimiter for first entry.
                         output.append(DELIMITER);
                     }
-                    String lastName = extractLastName(teamMemberName); // WTD-2: Extracting last name
+                    var lastName = extractLastName(teamMemberName); // WTD-2: Extracting last name
                     output.append(lastName); // HTD-2: Aggregating the results with the delimiter.
                     isFirstFlag = false;
                 }

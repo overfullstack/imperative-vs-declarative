@@ -12,7 +12,7 @@ import java.util.concurrent.RecursiveTask;
 
 import static common.Common.EXPECTED_RESULT;
 import static common.Common.TEAM;
-import static imperative.ImperativeLastName.concatLastNames;
+import static imperative.ImperativeConcat.concatLastNames;
 import static imperative.parallel.Util.AVAILABLE_CORES;
 import static imperative.parallel.Util.concatResultsFromForks;
 import static org.junit.jupiter.api.Assertions.assertEquals;

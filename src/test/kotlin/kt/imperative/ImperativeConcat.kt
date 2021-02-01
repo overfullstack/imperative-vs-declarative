@@ -7,7 +7,7 @@ import kt.common.extractLastName
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class ImperativeLastName {
+class ImperativeConcat {
 
     @Test
     fun `1 - LastName Concat`() {
@@ -27,9 +27,6 @@ class ImperativeLastName {
         assertEquals(EXPECTED_RESULT, actual)
     }
 
-    /**
-     * Java Dev's Kotlin.
-     */
     companion object {
         private fun concatLastName1(team: List<String?>): String {
             var output = ""

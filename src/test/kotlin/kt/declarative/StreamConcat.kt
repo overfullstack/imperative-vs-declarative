@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
-class DeclarativeLastName {
+class StreamConcat {
     @Test
     fun testLastNameConcat() {
         val expected: String = concatLastNames(TEAM)
@@ -29,7 +29,7 @@ class DeclarativeLastName {
     }
 
     companion object {
-        private fun concatLastNames1(team: List<String>): String? {
+        private fun concatLastNames1(team: List<String>): String {
             return team.asSequence()
                     .map(::extractLastName)
                     .joinToString(DELIMITER)
@@ -46,6 +46,7 @@ class DeclarativeLastName {
                 .map { it.trim() } // WTD-12: Deal with only-white-space strings.
                 .filter { it.isNotEmpty() } // WTD-13: Deal with empty strings.
                 .map(::extractLastName) // WTD-2: Extract Last Name.
+            // Till here it's only an expression. The Terminal operator below executes it.
                 .joinToString(DELIMITER) // HTD-2: Aggregating results.
 
         fun concatLastNamesInParallel(team: List<String?>?): String = (team?.parallelStream() ?: Stream.empty()) // HTD-1
@@ -53,6 +54,7 @@ class DeclarativeLastName {
                 .map { it!!.trim() } // WTD-12: Deal with only-white-space strings.
                 .filter { it.isNotEmpty() } // WTD-13: Deal with empty strings.
                 .map(::extractLastName) // WTD-2: Extract Last Name.
+            // Till here it's only an expression. The Terminal operator below executes it.
                 .collect(Collectors.joining(DELIMITER)) // HTD-2: Aggregating results.
     }
 }
